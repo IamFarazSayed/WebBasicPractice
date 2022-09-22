@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        p {
+            color: red;
+        }
+    </style>
+    <script src="forgot.js">
+        
+        
+    </script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+</head>
+
+<body>
+    <div class="card" style="width: 20rem;">
+        <div class="card-body">
+            <form style="text-align:center" action="">
+                <div>
+                    <div class="form-label">Email Address</label>
+                        <input type="text" class="form-control" id="email" onchange="checkemailexist()" />
+                        <p class="d-none" id="emailerror">Your Email Doesn't Exist</p>
+                    </div>
+
+                    <div>
+                        <input type="text" class="form-control invisible" id="otp" placeholder="Enter OTP">
+                    </div>
+                    <br>
+                    <button type="button" class="btn btn-secondary invisible" onclick="getotp()" id="enableotp">Get
+                        OTP</button>
+                    <button type="button" class="btn btn-success invisible" onclick="verfiyotp()"
+                        id="hidesubmit">Submit</button>
+                    <button type="button" class="btn btn-info invisible" onclick="rsotp()" id="resendotp">Resend
+                        OTP</button>
+
+                    <br>
+                    <br>
+
+
+                    <div>
+                        <input type="text" class="form-control invisible" id="newpassword" onchange="checknewpass()"
+                            placeholder="Enter New Password">
+                    </div>
+                    <br>
+                    <div>
+                        <button type="button" class="btn btn-info invisible" onclick="resetpassword()"
+                            id="unablerstpass">Reset Password</button>
+                    </div>
+                    <br>
+
+
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

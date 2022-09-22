@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        th,
+        td,
+        tr {
+            border: 1px solid black;
+
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script>
+        var eid;
+        var tempstudentdetails = {};
+        var studentdetails = [];
+        var temparr = [];
+        var tlen;
+        var temp = JSON.parse(localStorage["studentdetails"])
+        function checklocal() {
+            if (temp.length == 0) {
+                var tblerror = document.getElementById("emptytable");
+                tblerror.innerHTML = "Table Is Empty!";
+            }
+            else {
+                var tblerror = document.getElementById("emptytable");
+                tblerror.innerHTML = "";
+
+                buildtable(temp);
+
+            }
+        }
+
+        function buildtable(arr) {
+            var table = document.getElementById("tblstudent");
+
+            temparr = arr;
+            tlen = temparr.length;
+
+
+            var i;
+            for (i = 0; i < tlen; i++) {
+                createrow(temparr[i].id, temparr[i].Name, temparr[i].Age, temparr[i].DOB, temparr[i].sremark);
+
+            }
+
+        }
+        function welcomeuser() {
+            var name = localStorage.getItem("name");
+            var welcome = document.getElementById("user");
+            welcome.innerHTML = "Welcome " + name + " !";
+            checklocal()
+        }
+        function enableremark() {
+            var e = document.getElementById("studentverify").value;
+            if (e == "Yes") {
+                document.getElementById("remark").removeAttribute("disabled");
+            }
+            else {
+
+                document.getElementById("remark").setAttribute("disabled", true);
+
+            }
+        }
+        var sid = parseInt(localStorage['sid']);
+
+        function savestudentdetail() {
+            var sname = "", sage = "", sdob = "", sremark = "";
+
+            sname = document.getElementById("sname").value;
+            sage = document.getElementById("sage").value;
+            sdob = document.getElementById("sdob").value;
+            sremark = document.getElementById("remark").value;
+            tempstudentdetails = { "id": sid, "Name": sname, "Age": sage, "DOB": sdob, "sremark": sremark };
+
+
+
+            if (sname == "" || sage == "" || sdob == "" || sremark == "") {
+                return false;
+            }
+
+            temp.push(tempstudentdetails);
+            localStorage.setItem("studentdetails", JSON.stringify(temp));
+            document.getElementById("sname").value = "";
+            document.getElementById("sage").value = "";
+            document.getElementById("sdob").value = "";
+            document.getElementById("studentverify").value = "select";
+            document.getElementById("remark").value = "";
+            createrow(sid, sname, sage, sdob, sremark);
+            sid++;
+            localStorage.setItem('sid', sid);
+            var tblerror = document.getElementById("emptytable");
+            tblerror.innerHTML = "";
+            
+        }
+
+
+        function createrow(sid, sname, sage, sdob, sremark) {
+            var table = document.getElementById("tblstudent");
+
+
+            var row;
+            var name;
+            var age;
+            var dob;
+            var remark;
+
+            row = table.insertRow();
+            row.setAttribute("class", "border")
+            name = row.insertCell(0);
+            name.setAttribute("class", "border");
+            age = row.insertCell(1);
+            age.setAttribute("class", "border");
+            dob = row.insertCell(2);
+            dob.setAttribute("class", "border");
+            remark = row.insertCell(3);
+            remark.setAttribute("class", "border");
+            edit = row.insertCell(4);
+            edit.setAttribute("class", "border");
+            del = row.insertCell(5);
+            del.setAttribute("class", "border");
+            name.innerHTML = sname;
+            age.innerHTML = sage;
+            dob.innerHTML = sdob;
+            remark.innerHTML = sremark;
+            edit.innerHTML = '<input type="button" value="Edit" id="e' + sid + '" onclick="editstudent(this.id)">';
+
+            del.innerHTML = '<input type="button" value="Delete" id="d' + sid + '" onclick="delstudent(this.id)">';
+
+        }
+
+
+
+        function editstudent(inputid) {
+            alert(inputid.substring(1));
+            document.getElementById("editrecord").classList.remove("invisible");
+            document.getElementById("save").classList.add("invisible");
+            var s_id = parseInt(inputid.substring(1));
+            var temp = JSON.parse(localStorage["studentdetails"])
+            var obj = temp.indexOf(temp.find(o => o.id === s_id));
+            var edittemp = JSON.parse(localStorage["studentdetails"])[obj];
+            document.getElementById("sname").value = edittemp.Name;
+            document.getElementById("sage").value = edittemp.Age;
+            document.getElementById("sdob").value = edittemp.DOB;
+            document.getElementById("remark").value = edittemp.sremark;
+            eid = s_id;
+
+            document.getElementById("editrecord").classList.remove("invisible");
+
+
+
+
+
+
+
+
+
+
+
+            
+
+        }
+
+        function delstudent(inputid) {
+            alert(inputid);
+            var did = parseInt(inputid.substring(1));
+            var temp = JSON.parse(localStorage["studentdetails"])
+            var obj = temp.find(o => o.id === did)
+            var i = temp.indexOf(obj)
+            alert(temp.length)
+            var deltemp;
+
+            deltemp = temp.splice(i, 1);
+
+            localStorage.setItem("studentdetails", JSON.stringify(temp))
+            console.log(deltemp);
+            window.confirm("Are You Sure?");
+            location.reload();
+            alert("Deleted\nName: " + deltemp[0].Name + "\nAge: " + deltemp[0].Age + "\nDOB: " + deltemp[0].DOB + "\nRemark: " + deltemp[0].sremark);
+
+
+        }
+        function saveedit() {
+
+            var sname = "", sage = "", sdob = "", sremark = "";
+
+            sname = document.getElementById("sname").value;
+            sage = document.getElementById("sage").value;
+            sdob = document.getElementById("sdob").value;
+            sremark = document.getElementById("remark").value;
+            if (sname == "" || sage == "" || sdob == "" || sremark == "") {
+                return false;
+            }
+            tempstudentdetails = { "id": eid, "Name": sname, "Age": sage, "DOB": sdob, "sremark": sremark };
+
+            // to Edit the Enter selected(but key is required)
+
+            var temp = JSON.parse(localStorage["studentdetails"])
+            var obj = temp.indexOf(temp.find(o => o.id === eid))
+            temp[obj] = tempstudentdetails;
+            console.log(temp);
+            localStorage.setItem("studentdetails", JSON.stringify(temp))
+            document.getElementById("sname").value = "";
+            document.getElementById("sage").value = "";
+            document.getElementById("sdob").value = "";
+            document.getElementById("studentverify").value = "select";
+            document.getElementById("remark").value = "";
+            document.getElementById("save").classList.remove("invisible");
+            document.getElementById("editrecord").classList.add("invisible")
+            location.reload();
+
+
+
+
+            
+
+
+
+        }
+        function searchname() {
+            var input = document.getElementById("searchstr").value;
+            console.log(input)
+            table = document.getElementById("tblstudent");
+            tr = table.getElementsByTagName("tr")
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.startsWith(input)) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body onload="welcomeuser()">
+    <h1 id="user"></h1>
+    <hr>
+    <form>
+        <table>
+            <tr>
+                <td><input type="text" id="sname" placeholder="Enter Name"></td>
+                <td><input type="text" id="sage" placeholder="Enter Age"></td>
+                <td><input type="text" id="sdob" placeholder="Enter DOB"></td>
+            </tr>
+            <tr>
+                <td>Is student? <select id="studentverify" onchange="enableremark()">
+                        <option value="select" selected>Select</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select></td>
+                <td><input type="text" name="" id="remark" placeholder="remarks"></td>
+                <!--disabled-->
+
+            </tr>
+            <tr>
+
+                <td><input type="button" value="save" id="save" onclick="return savestudentdetail()"></td>
+                <td class="invisible" id="editrecord"><input type="button" value="edit" onclick="saveedit()"></td>
+
+            </tr>
+
+
+        </table>
+    </form>
+    <hr>
+    <input type="text" name="" id="searchstr" onkeyup="searchname()" placeholder="Search Name">
+    <hr>
+    <table class="border" id="tblstudent" style="width:100% ;border: 1px solid black ">
+        <tr>
+            <th>Name</th>
+            <th>Age</th>
+            <th>DOB</th>
+            <th>Remark</th>
+            <th colspan="2">Action</th>
+        </tr>
+
+    </table>
+    <p id="emptytable"></p>
+</body>
+
+</html>

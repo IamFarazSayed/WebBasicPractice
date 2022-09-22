@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        p {
+            color: red;
+        }
+    </style>
+    <script src="registration.js">
+        </script>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration</title>
+</head>
+
+<body>
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <form style="text-align:center" action="">
+                <div>
+                    <div class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="fname" onkeypress="checkname(this.id)" onblur="mandatory(this.id)">
+                        <p class="d-none" id="errorfname">PLease Enter First Name</p>
+                        <p class="d-none" id="pfname">Enter Characters Only</p>
+                    </div>
+                    <div class=" form-label">Last Name</label>
+                        <input type="text" class="form-control" id="lname" onkeypress="checkname(this.id)" onfocusout="mandatory(this.id)">
+                        <p class="d-none" id="errorlname">PLease Enter Last Name</p>
+                        <p class="d-none" id="plname">Enter Characters Only</p>
+                    </div>
+                    <div class="form-label">Phone No.</label>
+                        <input type="text" class="form-control" id="phoneno" onkeypress="return validatephone(event)" onfocusout="mandatory(this.id)">
+                        <p class="d-none" id="errorphoneno">PLease Enter Phone No.</p>
+                    </div>
+                    <div class="form-label">Email address</label>
+                        <input type="text" class="form-control" id="email" onchange="checkemail()" onfocusout="mandatory(this.id)">
+                        <p class="d-none" id="erroremail">PLease Enter Email Address</p>
+                        <p class="d-none" id="pemail">Enter Email in Proper Format i.e (xyz@xyz.com)</p>
+                    </div>
+                    <input type="button" class="btn btn-primary" value="submit" id="submit" onclick="submitval()" >
+
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
