@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        th,
+        td,
+        tr {
+            border: 1px solid black;
+
+        }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+        crossorigin="anonymous"></script>
+    <script>
+        
+        
+        
+        var temparr = [];
+        var tlen;
+        var temp = JSON.parse(localStorage["deletelog"])
+        console.log(temp);
+        function checklocal() {
+            if (temp.length == 0) {
+                var tblerror = document.getElementById("emptytable");
+                tblerror.innerHTML = "Table Is Empty!";
+            }
+            else {
+                var tblerror = document.getElementById("emptytable");
+                tblerror.innerHTML = "";
+
+                buildtable(temp);
+
+            }
+        }
+
+        function buildtable(arr) {
+            var table = document.getElementById("tblstudent");
+
+            temparr = arr;
+            tlen = temparr.length;
+
+
+            var i;
+            for (i = 0; i < tlen; i++) {
+                createrow(temparr[i].id, temparr[i].Name, temparr[i].Age, temparr[i].DOB, temparr[i].sremark);
+
+            }
+
+        }
+        function welcomeuser() {
+            var name = localStorage.getItem("name");
+            var welcome = document.getElementById("user");
+            welcome.innerHTML = "Welcome " + name + " !";
+            checklocal()
+        }
+        
+        function createrow(sid, sname, sage, sdob, sremark) {
+            var table = document.getElementById("tblstudent");
+
+
+            var row;
+            var did;
+            var name;
+            var age;
+            var dob;
+            var remark;
+
+            row = table.insertRow();
+            row.setAttribute("class", "border")
+            did=row.insertCell(0);
+            did.setAttribute("class", "border");
+            name = row.insertCell(1);
+            name.setAttribute("class", "border");
+            age = row.insertCell(2);
+            age.setAttribute("class", "border");
+            dob = row.insertCell(3);
+            dob.setAttribute("class", "border");
+            remark = row.insertCell(4);
+            remark.setAttribute("class", "border");
+            did.innerHTML="s"+sid;
+            name.innerHTML = sname;
+            age.innerHTML = sage;
+            dob.innerHTML = sdob;
+            remark.innerHTML = sremark;
+             }
+
+        
+
+        
+
+        
+        
+        function searchname() {
+            var input = document.getElementById("searchstr").value;
+            console.log(input)
+            table = document.getElementById("tblstudent");
+            tr = table.getElementsByTagName("tr")
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.startsWith(input)) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body onload="welcomeuser()">
+    <h1 id="user"></h1>
+    <hr>
+    
+    <hr>
+    <input type="text" name="" id="searchstr" onkeyup="searchname()" placeholder="Search Name">
+    <hr>
+    <table class="border" id="tblstudent" style="width:100% ;border: 1px solid black ">
+        <tr>
+            <th class="border">Id</th>
+            <th class="border">Name</th>
+            <th class="border">Age</th>
+            <th class="border">DOB</th>
+            <th class="border">Remark</th>
+        </tr>
+
+    </table>
+    <p id="emptytable"></p>
+    <a href="studentscreen.html">Back to Student Screen</a>
+</body>
+
+</html>

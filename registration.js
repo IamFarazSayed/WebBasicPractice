@@ -1,0 +1,119 @@
+function mandatory(setid){
+    var mnd = document.getElementById(setid).value;
+    var error = document.getElementById("error"+setid);
+    if (mnd=="")
+    {
+        
+        error.classList.remove("d-none");
+        
+    }
+    else{
+        error.classList.add("d-none");
+    }
+} 
+function generatepassword() {
+
+    //generate a *digit Password
+    var passgen = "";
+    //1st Char Will be Capital Letter
+    var rndupper = Math.floor(Math.random() * (92 - 65) + 65);
+    var rnd1 = String.fromCharCode(rndupper);
+    passgen += rnd1;
+    //2nd,3rd,4th character will be lower case letter
+    var ranlower;
+    var rnd2;
+    for (let i = 0; i <= 2; i++) {
+        ranlower = Math.floor(Math.random() * (122 - 97) + 97);
+        rnd2 = String.fromCharCode(ranlower);
+        passgen += rnd2;
+    }
+    //5th character will be special Character
+    var spchar = [33, 35, 36, 37, 38, 42];
+    var random = Math.floor(Math.random() * spchar.length);
+    var rnd3 = String.fromCharCode(spchar[random]);
+    passgen += rnd3;
+    //6th ,7th and 8th character will be numbers 
+    var rndno;
+    var rnd4;
+    for (let i = 0; i <= 2; i++) {
+        rndno = Math.floor(Math.random() * (57 - 48) + 48);
+        rnd4 = String.fromCharCode(rndno);
+        passgen += rnd4;
+    }
+
+
+    return passgen;
+
+}
+function submitval() {
+    if(document.getElementById("email").value=="" || document.getElementById("fname").value=="" || document.getElementById("lname").value=="" || document.getElementById("phoneno").value==""){
+        alert("All Fields are Compulsory!!!")
+        document.getElementById("email").value="";
+        document.getElementById("fname").value="";
+        document.getElementById("lname").value="";
+        document.getElementById("phoneno").value="";
+    }
+else{
+    var email = document.getElementById("email").value;
+    var rndpassword =generatepassword();
+    var fname = document.getElementById("fname").value;
+    var lname = document.getElementById("lname").value;
+    var phoneno = document.getElementById("phoneno").value;
+    localStorage.setItem("Email", email);
+    localStorage.setItem("Password", rndpassword);
+    localStorage.setItem("name",fname);
+    localStorage.setItem("studentdetails","[]");
+    localStorage.setItem("deletelog","[]");
+    localStorage.setItem("sid",0);
+    
+
+    alert("First Name: " + fname + "\nLast name: " + lname + "\nPhone No.: " + phoneno + "\nEmail Address: " + email + "\nYour Password is: " + rndpassword);
+
+    //if (window.confirm('Really go to another page?')) {
+    
+
+    window.location.href = "login.html";
+    //}
+
+
+
+}
+
+}
+function checkemail() {
+    var email = document.getElementById("email").value;
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    var pemail = document.getElementById("pemail");
+    if (!re.test(email)) {       
+        pemail.classList.remove("d-none");
+    }
+    else {
+        pemail.classList.add("d-none");
+    }
+
+}
+function validatephone(evt) {
+    var charCode = evt.which;
+    if (charCode < 48 || charCode > 57)
+        return false;
+    return true;
+}
+function checkname(clicked_id) {
+    var name = document.getElementById(clicked_id).value;
+    var cname = document.getElementById("p" + clicked_id);
+    var regex = /^[a-zA-Z]{1,30}$/;
+    console.log(name);
+
+    if (!regex.test(name)) {       
+        cname.classList.remove("d-none");
+    }
+
+    else {
+        cname.classList.add("d-none");
+    }
+
+
+}
+
+
+
